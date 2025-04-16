@@ -1,0 +1,116 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">
+                <i class="bi {% if form.instance.pk %}bi-pencil-square{% else %}bi-plus-circle{% endif %} me-2"></i>
+                {% if form.instance.pk %}Edit{% else %}New{% endif %} Recipe
+            </h2>
+            
+            <form method="post" enctype="multipart/form-data" class="recipe-form needs-validation" novalidate>
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below.
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Basic Info -->
+                        <div class="form-section mb-4">
+                            <h5 class="form-section-title"><i class="bi bi-info-circle me-2"></i>Basic Information</h5>
+                            {% for field in form %}
+                                {% if field.name == 'title' or field.name == 'description' %}
+                                    <div class="mb-3">
+                                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="invalid-feedback">{{ field.errors.0 }}</div>
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <div class="form-text">{{ field.help_text }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Recipe Details -->
+                        <div class="form-section mb-4">
+                            <h5 class="form-section-title"><i class="bi bi-list-ul me-2"></i>Recipe Details</h5>
+                            {% for field in form %}
+                                {% if field.name == 'ingredients' or field.name == 'instructions' %}
+                                    <div class="mb-3">
+                                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="invalid-feedback">{{ field.errors.0 }}</div>
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <div class="form-text">{{ field.help_text }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!-- Cooking Info -->
+                        <div class="form-section mb-4">
+                            <h5 class="form-section-title"><i class="bi bi-clock me-2"></i>Cooking Information</h5>
+                            {% for field in form %}
+                                {% if field.name == 'preparation_time' or field.name == 'cooking_time' or field.name == 'difficulty' %}
+                                    <div class="mb-3">
+                                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="invalid-feedback">{{ field.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Image Upload -->
+                        <div class="form-section mb-4">
+                            <h5 class="form-section-title"><i class="bi bi-image me-2"></i>Recipe Image</h5>
+                            <div class="mb-3">
+                                <div class="image-upload-wrapper" id="imageUploadWrapper">
+                                    <img id="imagePreview" class="img-preview d-none mb-3" alt="Image preview">
+                                    <label for="{{ form.image.id_for_label }}" class="form-label image-upload-label">
+                                        <i class="bi bi-cloud-upload me-2"></i>
+                                        <span id="uploadText">Upload Image</span>
+                                    </label>
+                                    {{ form.image }}
+                                    {% if form.image.errors %}
+                                        <div class="invalid-feedback">{{ form.image.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Save Recipe
+                    </button>
+                    <a href="{% url 'recipe-list' %}" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'recipes/js/recipe-form.js' %}"></script>
+{% endblock %}

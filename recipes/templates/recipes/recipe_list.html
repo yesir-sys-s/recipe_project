@@ -1,0 +1,30 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="display-5 text-center mb-5">Discover Delicious Recipes</h1>
+        
+        <div class="recipe-grid">
+            {% for recipe in recipes %}
+            <div class="card h-100">
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ recipe.title }}</h5>
+                    <p class="card-text text-muted">{{ recipe.description|truncatechars:100 }}</p>
+                    <div class="recipe-meta mb-3">
+                        <span><i class="bi bi-clock-history"></i> {{ recipe.total_time }} mins</span>
+                        <span><i class="bi bi-stars"></i> {{ recipe.get_difficulty_display }}</span>
+                    </div>
+                    <a href="{% url 'recipe-detail' recipe.pk %}" class="btn btn-primary w-100">View Recipe</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">No recipes found. Be the first to share a recipe!</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

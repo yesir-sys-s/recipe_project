@@ -1,0 +1,18 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold text-white mb-4">Discover & Share Delicious Recipes</h1>
+                <p class="lead text-white mb-5">Join our community of food lovers to share your culinary masterpieces and explore thousands of mouth-watering recipes!</p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mb-5">
+                    <a href="{% url 'recipe-list' %}" class="btn btn-light btn-lg px-4">Browse Recipes</a>
+                    <a href="{% url 'recipe-create' %}" class="btn btn-outline-light btn-lg px-4">Share Recipe</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
